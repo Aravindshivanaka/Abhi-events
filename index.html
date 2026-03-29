@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <style>
+    /* --- NEW SECTIONS STYLING --- */
+    .reviews-section, .about-me-section {
+      padding: 20px 15px;
+      margin: 0 auto;
+      max-width: 600px; 
+      overflow: hidden; /* This prevents the carousel from breaking the screen width */
+    }
+  
+    .section-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+  
+    .reviews-carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+  
+    .reviews-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+  
+    .review-slide {
+      min-width: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+    }
+  
+    .reviews-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+  
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  
+    .dot.active {
+      background-color: #ffffff;
+      box-shadow: 0 0 3px rgba(0,0,0,0.4);
+    }
+  
+    .about-me-img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      display: block;
+    }
+  </style>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Event Decorations</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<script>
+  // Testimonials Carousel Auto-Slide Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.getElementById('reviewsTrack');
+    const dots = document.querySelectorAll('#reviewsDots .dot');
+    
+    if (!track || dots.length === 0) {
+      console.log("Carousel elements not found!");
+      return;
+    }
+
+    let currentIndex = 0;
+    const totalSlides = dots.length;
+
+    function updateReviewCarousel() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+    }
+
+    function nextReviewSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateReviewCarousel();
+    }
+
+    let reviewInterval = setInterval(nextReviewSlide, 3000);
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateReviewCarousel();
+        clearInterval(reviewInterval);
+        reviewInterval = setInterval(nextReviewSlide, 3000);
+      });
+    });
+  });
+</script>
+
+<body>
+
+
+
+  <div id="top"></div>
+  <div class="page">
+
+  <header class="site-header">
+
+    <a href="tel:+918686797982" class="icon-btn" aria-label="Call Abhi Events">
+      <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
+    </a>
+
+    <div class="header-brand">
+
+      <a href="#top" class="logo">Abhi Events</a>
+
+    </div>
+
+    <div class="header-actions">
+
+      <button type="button" class="icon-btn" id="search-toggle" aria-label="Search categories" aria-expanded="false" aria-controls="search-panel">
+
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+
+      </button>
+      
+
+    </div>
+
+  </header>
+
+
+
+  <div class="search-panel" id="search-panel" hidden>
+
+    <label class="visually-hidden" for="header-search-input">Search categories</label>
+
+    <input type="search" id="header-search-input" class="header-search-input" placeholder="Search categories…" autocomplete="off" enterkeyhint="search" aria-autocomplete="list" aria-expanded="false" aria-controls="search-suggestions">
+
+    <ul id="search-suggestions" class="search-suggestions" role="listbox" aria-label="Matching categories" hidden></ul>
+
+  </div>
+
+
+
+  <div class="location-bar">
+
+    <svg class="icon icon-pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+
+    <div class="location-bar__dropdown">
+
+      <span class="location-text">Metpally</span>
+
+      <svg class="icon icon-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+
+    </div>
+
+  </div>
+
+
+
+  <section class="hero" aria-label="Featured decoration highlights">
+
+    <div class="hero-inner">
+
+      <div class="hero-media" aria-roledescription="carousel" aria-label="Hero images">
+
+        <div class="hero-carousel">
+
+          <div class="hero-carousel__slides">
+
+            <div class="hero-carousel__slide is-active" aria-hidden="false">
+
+              <img src="images/Hero images/hero1.png" alt="Colorful event decoration and balloon arch — hero banner 1">
+
+            </div>
+
+            <div class="hero-carousel__slide" aria-hidden="true">
+
+              <img src="images/Hero images/hero2.png" alt="Celebration décor and party styling — hero banner 2">
+
+            </div>
+
+            <div class="hero-carousel__slide" aria-hidden="true">
+
+              <img src="images/Hero images/hero3.png" alt="Festive balloon and venue decoration showcase — hero banner 3">
+
+            </div>
+
+          </div>
+
+          <div class="hero-carousel__dots" role="tablist" aria-label="Choose slide">
+
+            <button type="button" class="hero-carousel__dot is-active" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+
+            <button type="button" class="hero-carousel__dot" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+
+            <button type="button" class="hero-carousel__dot" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="trust-banner">
+
+    <div class="trust-lines">
+
+      <span class="trust-line" aria-hidden="true"></span>
+
+      <span class="trust-heading">Abhi Events</span>
+
+      <span class="trust-line" aria-hidden="true"></span>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="section categories-section" aria-labelledby="categories-heading">
+
+    <div class="section-head">
+
+      <h2 id="categories-heading" class="section-title">Categories</h2>
+
+    </div>
+
+
+
+    <div class="categories">
+
+      <a href="category.html?c=birthday" class="category">
+
+        <div class="category-thumb">
+
+          <img src="images/Birthday/im1.jpg" alt="Birthday party balloon decoration and themed setup">
+
+        </div>
+
+        <p class="category-label">Birthday</p>
+
+      </a>
+
+
+
+      <a href="category.html?c=wedding" class="category">
+
+        <div class="category-thumb">
+
+          <img src="images/Wedding/im1.webp" alt="Wedding venue decoration and celebratory floral styling">
+
+        </div>
+
+        <p class="category-label">Wedding</p>
+
+      </a>
+
+
+
+      <a href="category.html?c=baby-welcome" class="category">
+
+        <div class="category-thumb">
+
+          <img src="images/Baby welcome/im1.webp" alt="Baby welcome celebration décor and soft themed display">
+
+        </div>
+
+        <p class="category-label">Baby Welcome</p>
+
+      </a>
+
+
+
+      <a href="category.html?c=naming" class="category">
+
+        <div class="category-thumb">
+
+          <img src="images/Naming/im1.webp" alt="Naming ceremony traditional decoration and backdrop">
+
+        </div>
+
+        <p class="category-label">Naming</p>
+
+      </a>
+
+
+
+      <a href="category.html?c=haldi" class="category">
+
+        <div class="category-thumb">
+
+          <img src="images/Haldi/im1.webp" alt="Haldi ceremony festive decoration with marigold and drapes">
+
+        </div>
+
+        <p class="category-label">Haldi</p>
+
+      </a>
+
+    </div>
+
+    <!-- TESTIMONIALS CAROUSEL SECTION -->
+<section class="reviews-section">
+  <h2 class="section-title">Happy Clients</h2>
+  <div class="reviews-carousel">
+    <div class="reviews-track" id="reviewsTrack">
+      <!-- Change the filenames/extensions below if needed! -->
+      <img src="./images/reviews/rw1.jpg" alt="Client Review 1" class="review-slide">
+      <img src="./images/reviews/rw2.png" alt="Client Review 2" class="review-slide">
+      <img src="./images/reviews/rw3.png" alt="Client Review 3" class="review-slide">
+    </div>
+    <div class="reviews-dots" id="reviewsDots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT ME SECTION -->
+<section class="about-me-section">
+  <h2 class="section-title">About Abhi Events</h2>
+  <!-- Change the extension below if your image is a .png or .webp! -->
+  <img src="./images/Aboutme.png" alt="About Abhi Events" class="about-me-img">
+</section>
+
+  </section>
+
+</div>
+
+
+
+<a href="https://wa.me/918686797982?text=Hi%20I%20saw%20your%20decorations"
+
+   class="whatsapp-btn" target="_blank" rel="noopener noreferrer"
+
+   aria-label="Chat on WhatsApp">
+
+   <img src="images/whatsapp.png" alt="">
+
+</a>
+
+<script>
+  document.getElementById("scrollTopBtn").addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+</script>
+
+<script src="data.js"></script>
+
+<script src="home.js"></script>
+
+
+
+</body>
+
+</html>
+
